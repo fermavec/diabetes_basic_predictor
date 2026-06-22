@@ -1,78 +1,78 @@
-# Predicción de Diabetes con Machine Learning
+# Diabetes Risk Prediction with Machine Learning
 
-Proyecto de clasificación binaria para predecir el riesgo de diabetes en pacientes utilizando un modelo Random Forest optimizado.
+Binary classification project to predict diabetes risk in patients using an optimized Random Forest model.
 
-## Estructura del proyecto
+## Project Structure
 
 ```
 predict_diabetes/
 ├── notebooks/
-│   └── EjercicioPracticoDiabetes.ipynb   # Pipeline completo: EDA, entrenamiento y evaluación
+│   └── EjercicioPracticoDiabetes.ipynb   # Full pipeline: EDA, training and evaluation
 ├── models/
-│   ├── modelo_diabetes_rf.pkl             # Random Forest Classifier (200 árboles, optimizado)
-│   └── escalador_diabetes.pkl             # StandardScaler ajustado en datos de entrenamiento
-├── data/                                  # No incluido en el repositorio (ver sección Dataset)
-├── app.py                                 # Tablero interactivo con Streamlit
-├── predict.py                             # Script de inferencia por lotes (CSV)
+│   ├── modelo_diabetes_rf.pkl             # Random Forest Classifier (200 trees, optimized)
+│   └── escalador_diabetes.pkl             # StandardScaler fitted on training data
+├── data/                                  # Not included in the repository (see Dataset section)
+├── app.py                                 # Interactive Streamlit dashboard
+├── predict.py                             # Batch inference script (CSV input)
 ├── requirements.txt
 └── .gitignore
 ```
 
 ## Dataset
 
-El dataset **no está incluido en este repositorio** por su tamaño. Se trata de un conjunto de 100,000 registros de pacientes de EE.UU. con variables clínicas y demográficas. Distribución: 91.5% sin diabetes / 8.5% con diabetes.
+The dataset is **not included in this repository** due to its size. It consists of 100,000 patient records from the United States with clinical and demographic variables. Class distribution: 91.5% non-diabetic / 8.5% diabetic.
 
-**Variables:** `year`, `gender`, `age`, `location`, `race:AfricanAmerican`, `race:Asian`, `race:Caucasian`, `race:Hispanic`, `race:Other`, `hypertension`, `heart_disease`, `smoking_history`, `bmi`, `hbA1c_level`, `blood_glucose_level`, `diabetes`.
+**Features:** `year`, `gender`, `age`, `location`, `race:AfricanAmerican`, `race:Asian`, `race:Caucasian`, `race:Hispanic`, `race:Other`, `hypertension`, `heart_disease`, `smoking_history`, `bmi`, `hbA1c_level`, `blood_glucose_level`, `diabetes`.
 
-## Pipeline de entrenamiento
+## Training Pipeline
 
-El notebook documenta las siguientes etapas:
+The notebook documents the following stages:
 
-1. **EDA** — Exploración y comprensión del dataset
-2. **Limpieza** — Eliminación de duplicados, filtros de edad y género
-3. **Visualización** — Distribuciones, boxplots y mapa de correlación
-4. **Preprocesamiento** — One-hot encoding, normalización (StandardScaler)
-5. **Balanceo** — Comparación entre SMOTE y RandomUnderSampler
-6. **Feature Engineering** — Categorías clínicas de BMI y glucosa, índice de comorbilidad
-7. **Modelado** — Baseline (Regresión Logística) y comparación de algoritmos
-8. **Optimización** — GridSearchCV con validación cruzada (cv=5)
-9. **Exportación** — Serialización del modelo y scaler con joblib
+1. **EDA** — Dataset exploration and understanding
+2. **Cleaning** — Duplicate removal, age and gender filters
+3. **Visualization** — Distributions, boxplots and correlation heatmap
+4. **Preprocessing** — One-hot encoding, normalization (StandardScaler)
+5. **Balancing** — SMOTE vs. RandomUnderSampler comparison
+6. **Feature Engineering** — Clinical BMI and glucose categories, comorbidity index
+7. **Modeling** — Logistic Regression baseline and algorithm comparison
+8. **Optimization** — GridSearchCV with cross-validation (cv=5)
+9. **Export** — Model and scaler serialization with joblib
 
-## Modelo final
+## Final Model
 
-| Métrica       | Valor |
-|---------------|-------|
-| Accuracy      | 90%   |
-| Recall        | 90%   |
-| Precisión     | 47%   |
-| F1-Score      | 0.62  |
+| Metric    | Value |
+|-----------|-------|
+| Accuracy  | 90%   |
+| Recall    | 90%   |
+| Precision | 47%   |
+| F1-Score  | 0.62  |
 
-El modelo prioriza el **recall** para minimizar falsos negativos (pacientes enfermos sin diagnosticar), lo que lo hace adecuado como herramienta de tamizaje médico.
+The model prioritizes **recall** to minimize false negatives (sick patients going undiagnosed), making it suitable as a medical screening tool.
 
-## Demo interactiva (Streamlit)
+## Interactive Demo (Streamlit)
 
 ```bash
-# Activar entorno virtual (obligatorio — todas las dependencias están aisladas aquí)
+# Activate virtual environment (required — all dependencies are isolated here)
 venv\Scripts\activate          # Windows
 source venv/bin/activate       # Linux/Mac
 
-# Lanzar la app
+# Launch the app
 streamlit run app.py
 ```
 
-Se abre automáticamente en `http://localhost:8501`. Permite ingresar datos de un paciente con sliders y selectores, y devuelve la predicción con probabilidad y un gráfico de importancia de variables.
+Opens automatically at `http://localhost:8501`. Enter patient data using sliders and dropdowns to get a prediction with probability score and a feature importance chart.
 
-## Script de inferencia por lotes
+## Batch Inference Script
 
 ```bash
-python predict.py data/nuevos_pacientes.csv
+python predict.py data/new_patients.csv
 ```
 
-El archivo de entrada debe incluir las mismas columnas del dataset original (ver sección Dataset). Los resultados se guardan como `nuevos_pacientes_predicciones.csv` con dos columnas adicionales:
-- `prediccion_diabetes`: 0 (negativo) o 1 (positivo)
-- `probabilidad_diabetes`: probabilidad estimada (0.0 - 1.0)
+The input file must include the same columns as the original dataset (see Dataset section). Results are saved as `new_patients_predicciones.csv` with two additional columns:
+- `prediccion_diabetes`: 0 (negative) or 1 (positive)
+- `probabilidad_diabetes`: estimated probability (0.0 - 1.0)
 
-## Instalación
+## Installation
 
 ```bash
 python -m venv venv
@@ -80,9 +80,9 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-> **Nota:** todas las dependencias se instalan dentro de `venv/` y no afectan el entorno global del sistema.
+> **Note:** all dependencies are installed inside `venv/` and do not affect the global system environment.
 
-## Tecnologías
+## Tech Stack
 
 - Python 3.x
 - scikit-learn 1.9.0
